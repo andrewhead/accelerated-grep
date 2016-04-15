@@ -1,3 +1,4 @@
 [submodule "gnulib"]
         path = gnulib
-        url = git://git.sv.gnu.org/gnulib.git
+	url = git://github.com/andrewhead/regex-gnulib.git
+	branch = devel
