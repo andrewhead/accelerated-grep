@@ -199,7 +199,7 @@ Pcompile (char const *pattern, size_t size)
 
 size_t
 Pexecute (char *buf, size_t size, size_t *match_size,
-          char const *start_ptr)
+          char const *start_ptr, bool final)
 {
 #if !HAVE_LIBPCRE
   /* We can't get here, because Pcompile would have been called earlier.  */

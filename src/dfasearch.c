@@ -203,7 +203,7 @@ GEAcompile (char const *pattern, size_t size, reg_syntax_t syntax_bits)
 
 size_t
 EGexecute (char *buf, size_t size, size_t *match_size,
-           char const *start_ptr)
+           char const *start_ptr, bool final)
 {
   char const *buflim, *beg, *end, *ptr, *match, *best_match, *mb_start;
   char eol = eolbyte;
@@ -346,7 +346,7 @@ EGexecute (char *buf, size_t size, size_t *match_size,
           start = re_search (&(patterns[i].regexbuf),
                              beg, end - beg - 1,
                              ptr - beg, end - ptr - 1,
-                             &(patterns[i].regs));
+                             &(patterns[i].regs), final);
           if (start < -1)
             xalloc_die ();
           else if (0 <= start)
@@ -402,7 +402,8 @@ EGexecute (char *buf, size_t size, size_t *match_size,
                         start = re_search (&(patterns[i].regexbuf),
                                            beg, end - beg - 1,
                                            match - beg, end - match - 1,
-                                           &(patterns[i].regs));
+                                           &(patterns[i].regs),
+                                           final);
                         if (start < 0)
                           {
                             if (start < -1)

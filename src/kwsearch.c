@@ -79,7 +79,7 @@ Fcompile (char const *pattern, size_t size)
 
 size_t
 Fexecute (char *buf, size_t size, size_t *match_size,
-          char const *start_ptr)
+          char const *start_ptr, bool final)
 {
   char const *beg, *try, *end, *mb_start;
   size_t len;

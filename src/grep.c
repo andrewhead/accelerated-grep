@@ -503,7 +503,7 @@ enum { SEEK_HOLE = SEEK_SET };
 
 /* Functions we'll use to search. */
 typedef void (*compile_fp_t) (char const *, size_t);
-typedef size_t (*execute_fp_t) (char *, size_t, size_t *, char const *);
+typedef size_t (*execute_fp_t) (char *, size_t, size_t *, char const *, bool);
 static compile_fp_t compile;
 static execute_fp_t execute;
 
@@ -1108,7 +1108,7 @@ print_line_middle (char *beg, char *lim,
 
   for (cur = beg;
        (cur < lim
-        && ((match_offset = execute (beg, lim - beg, &match_size, cur))
+        && ((match_offset = execute (beg, lim - beg, &match_size, cur, true))
             != (size_t) -1));
        cur = b + match_size)
     {
@@ -1254,7 +1254,7 @@ prpending (char const *lim)
       --pending;
       if (outleft
           || ((execute (lastout, nl + 1 - lastout,
-                        &match_size, NULL) == (size_t) -1)
+                        &match_size, NULL, false) == (size_t) -1)
               == !out_invert))
         prline (lastout, nl + 1, SEP_CHAR_REJECTED);
       else
@@ -1366,7 +1366,7 @@ grepbuf (char *beg, char const *lim)
   for (char *p = beg; p < lim; p = endp)
     {
       size_t match_size;
-      size_t match_offset = execute (p, lim - p, &match_size, NULL);
+      size_t match_offset = execute (p, lim - p, &match_size, NULL, false);
       if (match_offset == (size_t) -1)
         {
           if (!out_invert)
@@ -2674,7 +2674,7 @@ main (int argc, char **argv)
   /* We need one byte prior and one after.  */
   char eolbytes[3] = { 0, eolbyte, 0 };
   size_t match_size;
-  skip_empty_lines = ((execute (eolbytes + 1, 1, &match_size, NULL) == 0)
+  skip_empty_lines = ((execute (eolbytes + 1, 1, &match_size, NULL, false) == 0)
                       == out_invert);
 
   if ((argc - optind > 1 && !no_filenames) || with_filenames)
